@@ -1,0 +1,74 @@
+.header {
+  width: calc(100% - 84px);
+  height: 81px;
+
+  margin: 30px 42px 0;
+
+  background-color: #ff4fa0;
+  border-radius: 19px;
+
+  display: flex;
+  align-items: center;
+
+  padding: 0 27px;
+
+  box-sizing: border-box;
+}
+
+/* LOGO */
+
+.header-logo {
+  color: white;
+
+  font-family: Georgia, serif;
+  font-size: 34px;
+
+  width: 50px;
+}
+
+/* MENU */
+
+.header-nav {
+  display: flex;
+  align-items: center;
+
+  gap: 22px;
+  margin-left: 12px;
+}
+
+.header-nav a {
+  color: white;
+
+  text-decoration: none;
+
+  font-family: Arial, sans-serif;
+  font-size: 18px;
+}
+
+/* ICONOS */
+
+.header-icons {
+  margin-left: auto;
+
+  display: flex;
+  align-items: center;
+
+  gap: 22px;
+}
+
+.header-icons button {
+  border: none;
+  background: transparent;
+
+  color: #ffb6d5;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+}
+
+.header-icons svg {
+  width: 36px;
+  height: 36px;
+}
