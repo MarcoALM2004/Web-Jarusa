@@ -4,6 +4,8 @@ import { Routes, Route } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import Nosotros from "./pages/Nosotros";
 
+import "./App.css";
+
 function App() {
   const [count, setCount] = useState(0)
 

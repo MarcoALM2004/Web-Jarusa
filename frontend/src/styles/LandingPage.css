@@ -1,0 +1,132 @@
+.landing {
+    min-height: 100vh;
+    padding-bottom: 30px;
+}
+
+
+/* =========================
+   BANNER
+========================= */
+
+.banner {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.banner img {
+    width: 100%;
+    max-width: 1000px;
+    display: block;
+}
+
+
+/* =========================
+   SECCIONES
+========================= */
+
+.section {
+    width: 92%;
+    max-width: 950px;
+    margin: 45px auto 0;
+}
+
+.section h1 {
+    color: #ff4fa0;
+    font-size: 21px;
+    font-weight: 400;
+    margin-bottom: 25px;
+}
+
+
+/* =========================
+   NUEVAS LÍNEAS
+========================= */
+
+.lineas-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.linea-card {
+    background-color: white;
+    border-radius: 20px;
+
+    padding: px;
+
+    text-align: center;
+}
+
+.linea-card img {
+
+    width: 200px;
+
+    display: block;
+    margin: 0 auto;
+}
+
+.linea-card p {
+    color: #ff4fa0;
+
+    font-size: 20px;
+
+    margin: 10px 0 0;
+}
+
+
+/* =========================
+   PRODUCTOS
+========================= */
+
+.productos-container {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 18px;
+}
+
+.producto-card {
+    position: relative;
+
+    border-radius: 8px;
+
+    overflow: hidden;
+}
+
+.producto-card img {
+    width: 100%;
+
+    display: block;
+}
+
+
+/* =========================
+   RESPONSIVO
+========================= */
+
+@media (max-width: 700px) {
+
+  .lineas-container {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 7px;
+  }
+
+  .productos-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .section {
+    width: 90%;
+  }
+
+  .linea-card {
+    padding: 10px;
+  }
+
+  .linea-card p {
+    font-size: 16px;
+  }
+
+}

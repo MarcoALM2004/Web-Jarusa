@@ -20,9 +20,11 @@ function Header() {
       <div className="header-icons">
 
         <button>
+          {/* No se olvide que es e icono de carrito */}
           <ShoppingCart />
         </button>
 
+        {/* y ese de cuenta del icono*/}
         <button>
           <CircleUserRound />
         </button>
