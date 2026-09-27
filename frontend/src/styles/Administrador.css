@@ -1,0 +1,283 @@
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #fdf7ea;
+}
+
+/* ---- Sidebar ---- */
+.admin-sidebar {
+  width: 220px;
+  background-color: #ff4fa0;
+  padding: 24px 18px;
+  flex-shrink: 0;
+}
+
+.admin-logo {
+  margin-bottom: 32px;
+}
+
+.admin-logo img {
+  max-width: 140px;
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.admin-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.admin-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+
+  padding: 10px 12px;
+  border-radius: 10px;
+}
+
+.admin-nav-item:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* ---- Contenido ---- */
+.admin-content {
+  flex: 1;
+  padding: 28px 32px;
+}
+
+.admin-topbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.admin-bienvenida {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+
+.admin-bienvenida-img {
+  width: 200px;
+  height: auto;
+  display: block;
+  flex-shrink: 0;
+}
+
+.admin-topbar h1 {
+  color: #ff4fa0;
+  font-size: 24px;
+  margin: 0 0 4px;
+}
+
+.admin-topbar p {
+  color: #888;
+  font-size: 13px;
+  margin: 0;
+}
+
+.admin-usuario {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ff4fa0;
+  font-size: 14px;
+  font-weight: bold;
+
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+
+  flex-shrink: 0;
+}
+
+.admin-usuario:hover {
+  opacity: 0.8;
+}
+
+/* Circulo rosa detras del icono de cuenta, como en el Figma */
+.admin-usuario-icono {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #ff4fa0;
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---- Fila inferior: tabla + tarjeta promo lado a lado ---- */
+.admin-fila-inferior {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.admin-promo-card {
+  background-color: #ffe1f0;
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+}
+
+.admin-promo-img {
+  width: 100%;
+  max-width: 160px;
+  height: auto;
+  margin: 0 auto 12px;
+  display: block;
+}
+
+.admin-promo-texto {
+  color: #ff4fa0;
+  font-weight: bold;
+  font-size: 14px;
+  margin: 0 0 16px;
+}
+
+.admin-promo-boton {
+  display: inline-block;
+  background-color: white;
+  color: #ff4fa0;
+  border: 1px solid #ff4fa0;
+  border-radius: 30px;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.admin-promo-boton:hover {
+  background-color: #ff4fa0;
+  color: white;
+}
+
+@media (max-width: 800px) {
+  .admin-fila-inferior {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---- Tarjetas de estadisticas ---- */
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.admin-stat-card {
+  background-color: white;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.admin-stat-icono {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: #ffe1f0;
+  color: #ff4fa0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.admin-stat-label {
+  color: #888;
+  font-size: 12px;
+  margin: 0 0 4px;
+}
+
+.admin-stat-valor {
+  color: #333;
+  font-size: 22px;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* ---- Tabla de pedidos ---- */
+.admin-tabla-card {
+  background-color: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.admin-tabla-card h2 {
+  color: #ff4fa0;
+  font-size: 16px;
+  margin: 0 0 16px;
+}
+
+.admin-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.admin-tabla th {
+  text-align: left;
+  color: #999;
+  font-weight: normal;
+  padding: 8px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.admin-tabla td {
+  padding: 10px 8px;
+  border-bottom: 1px solid #f7f7f7;
+  color: #444;
+}
+
+.admin-estado {
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.admin-estado-en-camino {
+  background-color: #fff2cc;
+  color: #b8860b;
+}
+
+.admin-estado-procesando {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+}
+
+.admin-estado-entregado {
+  background-color: #dcfce7;
+  color: #15803d;
+}
+
+@media (max-width: 700px) {
+  .admin-layout {
+    flex-direction: column;
+  }
+  .admin-sidebar {
+    width: 100%;
+  }
+  .admin-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}

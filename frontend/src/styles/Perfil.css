@@ -1,0 +1,71 @@
+.perfil-page {
+  flex: 1 1 0%; /* cuando esta dentro de .admin-layout, ocupa el espacio junto al sidebar */
+  width: 100%;
+  min-width: 0; /* evita que el contenido interno le impida encogerse/crecer bien */
+
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  box-sizing: border-box;
+}
+
+.perfil-card {
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+
+  padding: 40px 32px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  max-width: 340px;
+  width: 100%;
+  text-align: center;
+}
+
+.perfil-icono {
+  color: #ff4fa0;
+  margin-bottom: 12px;
+}
+
+.perfil-card h1 {
+  font-size: 22px;
+  color: #333;
+  margin: 0 0 4px;
+}
+
+.perfil-email {
+  color: #888;
+  font-size: 14px;
+  margin: 0 0 12px;
+}
+
+.perfil-rol {
+  display: inline-block;
+  background-color: #ffe1f0;
+  color: #ff4fa0;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 24px;
+}
+
+.perfil-logout {
+  width: 100%;
+  padding: 12px;
+  background-color: #ff4fa0;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.perfil-logout:hover {
+  background-color: #e6398c;
+}

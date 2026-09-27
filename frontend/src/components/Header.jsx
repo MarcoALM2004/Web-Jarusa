@@ -1,8 +1,16 @@
-import { useState } from 'react'
+import { useNavigate } from "react-router-dom";
 import { ShoppingCart, CircleUserRound } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
 import "../styles/Header.css";
 
 function Header() {
+  const { usuario } = useAuth();
+  const navigate = useNavigate();
+
+  const irACuenta = () => {
+    navigate(usuario ? "/perfil" : "/login");
+  };
+
   return (
     <header className="header">
 
@@ -20,12 +28,10 @@ function Header() {
       <div className="header-icons">
 
         <button>
-          {/* No se olvide que es e icono de carrito */}
           <ShoppingCart />
         </button>
 
-        {/* y ese de cuenta del icono*/}
-        <button>
+        <button onClick={irACuenta}>
           <CircleUserRound />
         </button>
 

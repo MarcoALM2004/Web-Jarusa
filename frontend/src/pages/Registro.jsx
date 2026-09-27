@@ -2,12 +2,14 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import { useAuth } from "../context/AuthContext";
-import { login as loginRequest } from "../services/authService";
+import { registro as registroRequest } from "../services/authService";
 
 import "../styles/Login.css";
 
-function Login() {
+function Registro() {
+    const [nombre, setNombre] = useState("");
     const [email, setEmail] = useState("");
     const [contrasena, setContrasena] = useState("");
     const [error, setError] = useState("");
@@ -22,14 +24,9 @@ function Login() {
         setCargando(true);
 
         try {
-        const datosUsuario = await loginRequest(email, contrasena);
+        const datosUsuario = await registroRequest(nombre, email, contrasena);
         login(datosUsuario);
-
-        if (datosUsuario.rol === "ADMIN") {
-            navigate("/administrador");
-        } else {
-            navigate("/");
-        }
+        navigate("/");
         } catch (err) {
         setError(err.message);
         } finally {
@@ -44,15 +41,23 @@ function Login() {
         <main className="login-page">
             <div className="login-card">
 
-            <img src="/img/InicioSesion.png" alt="Inicia sesión" className="login-imagen" />
+            <img src="/img/Registro.png" alt="Regístrate" className="login-imagen" />
 
             <div className="login-form-container">
-                <h1>Inicia Sesión</h1>
+                <h1>Regístrate</h1>
                 <p className="login-subtitle">
-                Ingresa tu cuenta o registrate para todo lo que Jarusa tiene para ti
+                Crea tu cuenta y únete a Jarusa para descubrir todo lo que tenemos para ti.
                 </p>
 
                 <form onSubmit={handleSubmit} className="login-form">
+                <label>Nombre:</label>
+                <input
+                    type="text"
+                    value={nombre}
+                    onChange={(e) => setNombre(e.target.value)}
+                    required
+                />
+
                 <label>Correo Electrónico:</label>
                 <input
                     type="email"
@@ -66,21 +71,21 @@ function Login() {
                     type="password"
                     value={contrasena}
                     onChange={(e) => setContrasena(e.target.value)}
+                    minLength={6}
                     required
                 />
 
                 {error && <p className="login-error">{error}</p>}
 
                 <button type="submit" disabled={cargando}>
-                    {cargando ? "Ingresando..." : "Iniciar Sesión"}
+                    {cargando ? "Creando cuenta..." : "Regístrate"}
                 </button>
                 </form>
 
                 <p className="login-registro-link">
-                ¿Todavía no tienes cuenta? <a href="/registro">Regístrate</a>
+                ¿Ya tienes cuenta? <a href="/login">Inicia Sesión</a>
                 </p>
             </div>
-
             </div>
         </main>
 
@@ -88,4 +93,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default Registro;

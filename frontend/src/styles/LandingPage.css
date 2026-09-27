@@ -22,6 +22,98 @@
 
 
 /* =========================
+    BIENVENIDA (solo sin sesión)
+========================= */
+
+.bienvenida-section {
+    width: 92%;
+    max-width: 950px;
+    margin: 30px auto 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+
+    flex-wrap: wrap;
+}
+
+.bienvenida-img {
+    width: 550px;
+    max-width: 45%;
+    height: auto;
+    display: block;
+    flex-shrink: 0;
+}
+
+.bienvenida-texto {
+    flex: 1;
+    min-width: 260px;
+    max-width: 420px;
+}
+
+.bienvenida-titulo {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    display: block;
+    margin-bottom: 12px;
+}
+
+.bienvenida-texto p {
+    color: #ff7fb8;
+    font-size: 14px;
+    text-align: center;
+    line-height: 1.4;
+    margin: 0 0 16px;
+}
+
+.bienvenida-botones {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.btn-primario,
+.btn-secundario {
+    padding: 15px 22px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.btn-primario {
+    background-color: #ff4fa0;
+    color: white;
+}
+
+.btn-secundario {
+    background-color: white;
+    color: #ff4fa0;
+    border: 1px solid #ff4fa0;
+}
+
+@media (max-width: 700px) {
+    .bienvenida-section {
+        flex-direction: column;
+        text-align: center;
+    }
+    .bienvenida-img {
+        max-width: 70%;
+    }
+    .bienvenida-texto {
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+
+/* =========================
     SECCIONES
 ========================= */
 
@@ -52,7 +144,7 @@
 .linea-card {
     background-color: white;
     border-radius: 20px;
-    padding: 25px;
+    padding: 12px;
     text-align: center;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
@@ -68,9 +160,9 @@
 
 .linea-card p {
     color: #ff4fa0;
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 700;
-    margin: 25px 0 4px;
+    margin: 12px 0 4px;
 }
 
 
@@ -92,6 +184,7 @@
 
 .producto-card img {
     width: 100%;
+
     display: block;
 }
 
@@ -100,7 +193,8 @@
     RESPONSIVO
 ========================= */
 
-@media (max-width: 700px) {
+    @media (max-width: 700px) {
+
     .lineas-container {
         grid-template-columns: repeat(3, 1fr);
         gap: 7px;
@@ -121,4 +215,5 @@
     .linea-card p {
         font-size: 16px;
     }
+
 }
