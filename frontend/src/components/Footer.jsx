@@ -4,7 +4,7 @@ import "../styles/Footer.css";
 function Footer() {
   return (
     <footer className="footer">
-      <h1>Jarusa</h1>
+      <img src="/img/Marca.png" alt="Jarusa" className="footer-logo" />
     </footer>
   );
 }

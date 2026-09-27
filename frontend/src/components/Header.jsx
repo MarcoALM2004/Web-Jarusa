@@ -7,7 +7,7 @@ function Header() {
     <header className="header">
 
       <div className="header-logo">
-        JΛ
+        <img src="/img/Logo.png" alt="Jarusa" />
       </div>
 
       <nav className="header-nav">
