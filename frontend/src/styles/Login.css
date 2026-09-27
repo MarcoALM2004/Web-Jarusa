@@ -20,6 +20,12 @@
     display: block;
 }
 
+.registro-imagen{
+    width: 450px;
+    max-width: 100%;
+    display: block;
+}
+
 .login-form-container {
     flex: 1;
     min-width: 260px;

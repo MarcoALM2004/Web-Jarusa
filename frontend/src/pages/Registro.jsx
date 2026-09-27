@@ -41,7 +41,7 @@ function Registro() {
         <main className="login-page">
             <div className="login-card">
 
-            <img src="/img/Registro.png" alt="Regístrate" className="login-imagen" />
+            <img src="/img/Registro.png" alt="Regístrate" className="registro-imagen" />
 
             <div className="login-form-container">
                 <h1>Regístrate</h1>
