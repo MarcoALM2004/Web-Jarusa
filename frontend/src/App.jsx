@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 
 import LandingPage from "./pages/LandingPage";
 import Nosotros from "./pages/Nosotros";
+import Productos from "./pages/Productos";
 import Login from "./pages/Login";
 import Registro from "./pages/Registro";
 import Perfil from "./pages/Perfil";
@@ -17,6 +18,7 @@ return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/Nosotros" element={<Nosotros />} />
+      <Route path="/productos" element={<Productos />} />
       <Route path="/login" element={<Login />} />
       <Route path="/registro" element={<Registro />} />
       <Route path="/perfil" element={<Perfil />} />

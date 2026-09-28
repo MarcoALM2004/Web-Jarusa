@@ -62,3 +62,43 @@
   width: 36px;
   height: 36px;
 }
+
+/* BUSCADOR (solo vista Productos) */
+
+.header-search {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 260px;
+  height: 38px;
+  padding: 0 14px;
+  background-color: #ff79b8;
+  border-radius: 12px;
+}
+
+.header-search svg {
+  width: 18px;
+  height: 18px;
+  color: #ffb6d5;
+  flex-shrink: 0;
+}
+
+.header-search input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: white;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.header-search input::placeholder {
+  color: #ffd3e6;
+}
+
+.header-search + .header-icons {
+  margin-left: 22px;
+}

@@ -1,0 +1,232 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Outfit:wght@400;500;600&display=swap');
+
+.productos-page {
+    width: 92%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 24px 0 30px;
+    font-family: "Outfit", "Montserrat Alternates", sans-serif;
+}
+
+/*  HERO  */
+
+.productos-hero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 28px;
+}
+
+.productos-hero-img {
+    width: 200px;
+    max-width: 35%;
+    height: auto;
+}
+
+.productos-hero-texto h1 {
+    margin: 0;
+    font-family: "Fredoka", sans-serif;
+    font-weight: 700;
+    font-size: 64px;
+    line-height: 1;
+    color: #ff4fa0;
+}
+
+.productos-hero-texto p {
+    margin: 8px 0 0;
+    font-size: 17px;
+    color: #ff7fb8;
+}
+
+/*  LAYOUT  */
+
+.productos-layout {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+/*  FILTROS  */
+
+.filtros {
+    width: 220px;
+    flex-shrink: 0;
+    padding: 16px;
+    background-color: #ffe3f0;
+    border-radius: 16px;
+    position: sticky;
+    top: 16px;
+}
+
+.filtros h2 {
+    margin: 0 0 12px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #ff4fa0;
+}
+
+.filtros ul {
+    list-style: none;
+    margin: 0 0 18px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.filtros label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #ff79b8;
+}
+
+.filtros input[type="checkbox"] {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    border: 1.5px solid #ff79b8;
+    border-radius: 3px;
+    background: white;
+    cursor: pointer;
+    display: grid;
+    place-content: center;
+}
+
+.filtros input[type="checkbox"]:checked {
+    background: #ff4fa0;
+    border-color: #ff4fa0;
+}
+
+.filtros input[type="checkbox"]:checked::after {
+    content: "";
+    width: 4px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg) translate(-1px, -1px);
+}
+
+.btn-filtros,
+.btn-detalles {
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+    background-color: #ff79b8;
+    color: white;
+    font-family: inherit;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.btn-filtros {
+    display: block;
+    margin: 0 auto;
+    padding: 8px 12px;
+}
+
+.btn-limpiar {
+    display: block;
+    margin: 10px auto 0;
+    border: none;
+    background: transparent;
+    color: #ff4fa0;
+    font-family: inherit;
+    font-size: 12px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.btn-filtros:hover,
+.btn-detalles:hover {
+    background-color: #ff4fa0;
+}
+
+/*  GRID  */
+
+.productos-grid-wrap {
+    flex: 1;
+    min-width: 0;
+}
+
+.productos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.producto-item {
+    background: white;
+    border-radius: 16px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.producto-item img {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    border-radius: 10px;
+    display: block;
+}
+
+.producto-item h3 {
+    margin: 8px 0 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: #ff4fa0;
+}
+
+.producto-precio {
+    font-size: 13px;
+    color: #ff7fb8;
+    margin-bottom: 4px;
+}
+
+.btn-detalles {
+    padding: 6px 10px;
+}
+
+.productos-mensaje {
+    text-align: center;
+    color: #ff7fb8;
+    font-size: 15px;
+    margin: 30px 0;
+}
+
+/*  RESPONSIVE  */
+
+@media (max-width: 800px) {
+    .productos-layout {
+        flex-direction: column;
+    }
+
+    .filtros {
+        width: 100%;
+        position: static;
+    }
+
+    .filtros ul {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 10px 16px;
+    }
+
+    .productos-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .productos-hero-texto h1 {
+        font-size: 44px;
+    }
+
+    .header-search {
+        width: 160px;
+    }
+}
