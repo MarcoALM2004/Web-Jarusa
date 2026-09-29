@@ -14,9 +14,8 @@ body {
 .app-container {
   width: 100%;
   max-width: 1200px;
-  min-height: 100vh;
   margin: 0 auto;
-  padding: 115px 42px;
+  padding: 20px 42px;
 }
 
 .main-content {
