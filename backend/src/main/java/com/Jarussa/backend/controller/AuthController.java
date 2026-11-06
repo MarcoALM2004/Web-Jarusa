@@ -1,8 +1,8 @@
 package com.Jarussa.backend.controller;
 
-import com.Jarussa.backend.dto.AuthResponse;
-import com.Jarussa.backend.dto.LoginRequest;
-import com.Jarussa.backend.dto.RegistroRequest;
+import com.Jarussa.backend.dto.Request.LoginRequest;
+import com.Jarussa.backend.dto.Request.RegistroRequest;
+import com.Jarussa.backend.dto.Response.AuthResponse;
 import com.Jarussa.backend.model.Rol;
 import com.Jarussa.backend.model.Usuario;
 import com.Jarussa.backend.repository.UsuarioRepository;

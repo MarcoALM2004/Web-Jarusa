@@ -22,6 +22,13 @@ public class Producto {
     @Column(length = 255)
     private String descripcion;
 
+    @Column(length = 1000)
+    private String caracteristicas;
+
+    // Borrado logico: un producto "eliminado" deja de mostrarse pero se conserva en los pedidos viejos
+    @Column(columnDefinition = "BOOLEAN DEFAULT TRUE")
+    private boolean activo = true;
+
     @Column(name = "imagen_url", nullable = false, length = 255)
     private String imagenUrl;
 
@@ -29,7 +36,7 @@ public class Producto {
     @JoinColumn(name = "categoria_id", nullable = false)
     private Categoria categoria;
 
-    @OneToMany(mappedBy = "producto", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "producto", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductoTono> tonos = new ArrayList<>();
 
     public Producto() {
@@ -49,6 +56,12 @@ public class Producto {
 
     public String getImagenUrl() { return imagenUrl; }
     public void setImagenUrl(String imagenUrl) { this.imagenUrl = imagenUrl; }
+
+    public String getCaracteristicas() { return caracteristicas; }
+    public void setCaracteristicas(String caracteristicas) { this.caracteristicas = caracteristicas; }
+
+    public boolean isActivo() { return activo; }
+    public void setActivo(boolean activo) { this.activo = activo; }
 
     public Categoria getCategoria() { return categoria; }
     public void setCategoria(Categoria categoria) { this.categoria = categoria; }

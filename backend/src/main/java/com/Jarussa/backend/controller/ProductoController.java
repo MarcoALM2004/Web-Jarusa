@@ -1,7 +1,7 @@
 package com.Jarussa.backend.controller;
 
-import com.Jarussa.backend.dto.CategoriaResponse;
-import com.Jarussa.backend.dto.ProductoResponse;
+import com.Jarussa.backend.dto.Response.CategoriaResponse;
+import com.Jarussa.backend.dto.Response.ProductoResponse;
 import com.Jarussa.backend.service.ProductoService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
