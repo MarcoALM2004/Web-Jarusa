@@ -9,7 +9,6 @@ import org.springframework.transaction.event.TransactionalEventListener;
 
 import java.util.Map;
 
-// Se ejecuta DESPUES del commit: el aviso solo sale si el pedido realmente se guardo
 @Component
 public class AdminNotifier {
 

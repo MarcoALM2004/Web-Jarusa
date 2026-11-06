@@ -48,7 +48,6 @@ public class PedidoService {
         this.stockBajo = stockBajo;
     }
 
-    // Todo o nada (ACID): si un solo item falla, no se descuenta stock ni se guarda el pedido
     @Transactional
     public PedidoResponse crear(Usuario usuario, PedidoRequest request) {
         Pedido pedido = new Pedido();
@@ -92,7 +91,6 @@ public class PedidoService {
         pedido.setTotal(subtotal.add(envio));
         pedidoRepository.save(pedido);
 
-        // Las notificaciones se guardan en la BD (en esta misma transaccion) y luego se empujan por WebSocket
         List<NotificacionResponse> notificaciones = new ArrayList<>();
         notificaciones.add(notificacionService.crear("PEDIDO_NUEVO",
                 "Nuevo pedido " + codigo(pedido.getId()) + " de " + usuario.getNombre()

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -12,6 +13,10 @@ const formatearPrecio = (precio) => {
     };
 
 function Productos() {
+    // /productos?categoria=1 (viene desde la pantalla Categorías)
+    const [searchParams] = useSearchParams();
+    const categoriasIniciales = searchParams.getAll("categoria").map(Number).filter(Boolean);
+
     const [productos, setProductos] = useState([]);
     const [categorias, setCategorias] = useState([]);
     const [cargando, setCargando] = useState(true);
@@ -19,8 +24,8 @@ function Productos() {
 
     const [busqueda, setBusqueda] = useState("");
 
-    const [seleccion, setSeleccion] = useState([]);
-    const [filtrosAplicados, setFiltrosAplicados] = useState([]);
+    const [seleccion, setSeleccion] = useState(categoriasIniciales);
+    const [filtrosAplicados, setFiltrosAplicados] = useState(categoriasIniciales);
 
     useEffect(() => {
         obtenerCategorias()
@@ -117,7 +122,7 @@ function Productos() {
                     <img src={p.imagenUrl} alt={p.nombre} />
                     <h3>{p.nombre}</h3>
                     <span className="producto-precio">{formatearPrecio(p.precio)}</span>
-                    <button className="btn-detalles">Detalles +</button>
+                    <Link to={`/productos/${p.id}`} className="btn-detalles">Detalles +</Link>
                     </article>
                 ))}
                 </div>

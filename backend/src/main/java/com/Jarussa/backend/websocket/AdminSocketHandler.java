@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-// Guarda las conexiones abiertas de los administradores y les envia mensajes (broadcast)
 @Component
 public class AdminSocketHandler extends TextWebSocketHandler {
 
@@ -35,7 +34,7 @@ public class AdminSocketHandler extends TextWebSocketHandler {
         TextMessage mensaje = new TextMessage(json);
         for (WebSocketSession s : sesiones) {
             try {
-                synchronized (s) { // una sesion no admite dos envios simultaneos
+                synchronized (s) { 
                     if (s.isOpen()) s.sendMessage(mensaje);
                 }
             } catch (IOException e) {

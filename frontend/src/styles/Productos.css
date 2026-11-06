@@ -230,3 +230,10 @@
         width: 160px;
     }
 }
+
+/* "Detalles +" ahora es un enlace */
+a.btn-detalles {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+}

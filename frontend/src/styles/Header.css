@@ -102,3 +102,26 @@
 .header-search + .header-icons {
   margin-left: 22px;
 }
+
+/* Contador del carrito */
+.header-icons .header-carrito {
+  position: relative;
+}
+
+.header-carrito-contador {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 10px;
+  background-color: white;
+  color: #ff4fa0;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

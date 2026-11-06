@@ -34,7 +34,6 @@ public class ProductoService {
         this.categoriaRepository = categoriaRepository;
     }
 
-    // ---------- Lectura publica ----------
 
     @Transactional(readOnly = true)
     public List<ProductoResponse> buscar(String nombre, List<Long> categorias) {
@@ -67,7 +66,6 @@ public class ProductoService {
         return aDetalle(buscarActivo(id));
     }
 
-    // ---------- CRUD del administrador ----------
 
     @Transactional(readOnly = true)
     public List<ProductoDetalleResponse> listarAdmin() {
@@ -90,13 +88,11 @@ public class ProductoService {
         return aDetalle(productoRepository.saveAndFlush(p));
     }
 
-    // Borrado logico: el producto deja de mostrarse, pero los pedidos antiguos lo siguen referenciando
     @Transactional
     public void eliminar(Long id) {
         buscarActivo(id).setActivo(false);
     }
 
-    // ---------- Internos ----------
 
     private Producto buscarActivo(Long id) {
         return productoRepository.findByIdAndActivoTrue(id)
@@ -114,7 +110,6 @@ public class ProductoService {
         p.setImagenUrl(r.imagenUrl().trim());
         p.setCategoria(categoria);
 
-        // Los tonos con id se actualizan; los nuevos se crean; los que ya no vienen se eliminan
         Map<Long, ProductoTono> actuales = new HashMap<>();
         for (ProductoTono t : p.getTonos()) actuales.put(t.getId(), t);
 

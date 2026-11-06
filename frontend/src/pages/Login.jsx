@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import Header from "../components/Header";
 import { useAuth } from "../context/AuthContext";
@@ -15,6 +15,8 @@ function Login() {
 
     const { login } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
+    const origen = location.state?.from;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -28,7 +30,7 @@ function Login() {
         if (datosUsuario.rol === "ADMIN") {
             navigate("/administrador");
         } else {
-            navigate("/");
+            navigate(origen ?? "/");
         }
         } catch (err) {
         setError(err.message);

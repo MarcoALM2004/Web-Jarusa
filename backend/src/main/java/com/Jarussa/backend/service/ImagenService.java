@@ -38,7 +38,7 @@ public class ImagenService {
             throw new SolicitudInvalidaException("Solo se permiten imágenes PNG, JPG o WEBP");
         }
 
-        String nombre = UUID.randomUUID() + "." + extension; // nombre propio: evita rutas maliciosas
+        String nombre = UUID.randomUUID() + "." + extension; 
         try (InputStream in = archivo.getInputStream()) {
             Files.copy(in, carpeta.resolve(nombre));
         } catch (IOException e) {

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const AuthContext = createContext(null);
 export function AuthProvider({ children}) {
@@ -6,6 +6,14 @@ export function AuthProvider({ children}) {
         const guardado = localStorage.getItem("usuario");
         return guardado ? JSON.parse(guardado) : null;
     });
+
+    // Si el backend responde 401 (token vencido), apiClient avisa y cerramos la sesion
+    useEffect(() => {
+        const alExpirar = () => setUsuario(null);
+        window.addEventListener("sesion-expirada", alExpirar);
+        return () => window.removeEventListener("sesion-expirada", alExpirar);
+    }, []);
+
     const login = (datosUsuario) => {
         setUsuario(datosUsuario);
         localStorage.setItem("usuario", JSON.stringify(datosUsuario));

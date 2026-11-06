@@ -15,8 +15,6 @@ import org.springframework.web.socket.server.HandshakeInterceptor;
 import java.util.Map;
 import java.util.Optional;
 
-// El navegador no puede mandar cabeceras en un WebSocket, asi que el token viaja en ?token=...
-// Solo deja pasar a administradores con token valido.
 @Component
 public class JwtHandshakeInterceptor implements HandshakeInterceptor {
 
@@ -43,7 +41,6 @@ public class JwtHandshakeInterceptor implements HandshakeInterceptor {
                         }
                     }
                 } catch (Exception e) {
-                    // token malformado o expirado: se rechaza abajo
                 }
             }
         }
