@@ -101,6 +101,26 @@
     text-decoration: none;
 }
 
+/* ---- Verificacion en dos pasos ---- */
+.login-form input.login-codigo {
+    font-size: 28px;
+    letter-spacing: 10px;
+    text-align: center;
+    font-weight: bold;
+    color: #ff4fa0;
+}
+
+.login-enlace {
+    margin-top: 16px;
+    background: none;
+    border: none;
+    padding: 0;
+    color: #ff4fa0;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
 @media (max-width: 700px) {
     .login-card {
         flex-direction: column;

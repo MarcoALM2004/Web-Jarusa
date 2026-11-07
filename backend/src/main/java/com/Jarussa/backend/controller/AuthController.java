@@ -1,12 +1,14 @@
 package com.Jarussa.backend.controller;
 
+import com.Jarussa.backend.dto.Response.AuthResponse;
 import com.Jarussa.backend.dto.Request.LoginRequest;
 import com.Jarussa.backend.dto.Request.RegistroRequest;
-import com.Jarussa.backend.dto.Response.AuthResponse;
+import com.Jarussa.backend.dto.Request.Verificar2faRequest;
 import com.Jarussa.backend.model.Rol;
 import com.Jarussa.backend.model.Usuario;
 import com.Jarussa.backend.repository.UsuarioRepository;
 import com.Jarussa.backend.security.JwtService;
+import com.Jarussa.backend.service.DosPasosService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,41 +25,46 @@ public class AuthController {
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final DosPasosService dosPasosService;
 
     public AuthController(UsuarioRepository usuarioRepository,
-                           PasswordEncoder passwordEncoder,
-                           JwtService jwtService) {
+                            PasswordEncoder passwordEncoder,
+                            JwtService jwtService,
+                            DosPasosService dosPasosService) {
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
+        this.dosPasosService = dosPasosService;
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request) {
 
         Optional<Usuario> usuarioOpt = usuarioRepository.findByEmail(request.getEmail());
-
         if (usuarioOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(Map.of("mensaje", "Correo o contraseña incorrectos"));
         }
-
         Usuario usuario = usuarioOpt.get();
-
         boolean coincide = passwordEncoder.matches(request.getContrasena(), usuario.getContrasena());
-
         if (!coincide) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(Map.of("mensaje", "Correo o contraseña incorrectos"));
         }
 
+        if (usuario.isDosPasosActivo()) {
+            return ResponseEntity.ok(AuthResponse.pendiente(jwtService.generarTokenTemporal(usuario.getEmail())));
+        }
         String token = jwtService.generarToken(usuario.getEmail(), usuario.getRol().name());
-
         AuthResponse response = new AuthResponse(
                 token, usuario.getNombre(), usuario.getEmail(), usuario.getRol().name()
         );
-
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/2fa/verificar")
+    public AuthResponse verificarDosPasos(@Valid @RequestBody Verificar2faRequest request) {
+        return dosPasosService.verificar(request.tokenTemporal(), request.codigo());
     }
 
     @PostMapping("/registro")

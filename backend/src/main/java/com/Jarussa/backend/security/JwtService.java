@@ -19,6 +19,8 @@ public class JwtService {
     @Value("${jwt.expiration}")
     private long expirationMs;
 
+    private static final long PASE_TEMPORAL_MS = 5 * 60 * 1000;
+
     private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(secretKey.getBytes());
     }
@@ -30,10 +32,27 @@ public class JwtService {
         return Jwts.builder()
                 .subject(email)
                 .claim("rol", rol)
+                .claim("etapa", "completa") // token final: abre todas las rutas
                 .issuedAt(ahora)
                 .expiration(expiracion)
                 .signWith(getSigningKey())
                 .compact();
+    }
+
+    public String generarTokenTemporal(String email) {
+        Date ahora = new Date();
+
+        return Jwts.builder()
+                .subject(email)
+                .claim("etapa", "pendiente-2fa")
+                .issuedAt(ahora)
+                .expiration(new Date(ahora.getTime() + PASE_TEMPORAL_MS))
+                .signWith(getSigningKey())
+                .compact();
+    }
+
+    public String extraerEtapa(String token) {
+        return extraerClaim(token, claims -> claims.get("etapa", String.class));
     }
 
     public String extraerEmail(String token) {

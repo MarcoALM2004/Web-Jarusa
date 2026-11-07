@@ -8,6 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.http.HttpHeaders;
 
 import java.util.Map;
 
@@ -50,5 +51,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<Map<String, String>> integridad(DataIntegrityViolationException e) {
         return responder(HttpStatus.CONFLICT, "No se pudo guardar: los datos chocan con otro registro");
+    }
+    
+    @ExceptionHandler(DosPasosException.class)
+    public ResponseEntity<Map<String, String>> dosPasos(DosPasosException e) {
+        ResponseEntity.BodyBuilder respuesta = ResponseEntity.status(e.getEstado());
+        if (e.getReintentarEnSegundos() != null) {
+            respuesta.header(HttpHeaders.RETRY_AFTER, String.valueOf(e.getReintentarEnSegundos()));
+        }
+        return respuesta.body(Map.of("mensaje", e.getMessage()));
     }
 }

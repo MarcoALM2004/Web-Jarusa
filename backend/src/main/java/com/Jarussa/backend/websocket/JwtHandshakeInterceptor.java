@@ -28,14 +28,13 @@ public class JwtHandshakeInterceptor implements HandshakeInterceptor {
 
     @Override
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response,
-                                   WebSocketHandler wsHandler, Map<String, Object> attributes) {
+                                    WebSocketHandler wsHandler, Map<String, Object> attributes) {
         if (request instanceof ServletServerHttpRequest servlet) {
             String token = servlet.getServletRequest().getParameter("token");
             if (token != null && !token.isBlank()) {
                 try {
                     String email = jwtService.extraerEmail(token);
-                    if (jwtService.esTokenValido(token, email)) {
-                        Optional<Usuario> usuario = usuarioRepository.findByEmail(email);
+                        if (jwtService.esTokenValido(token, email) && "completa".equals(jwtService.extraerEtapa(token))) {                                  Optional<Usuario> usuario = usuarioRepository.findByEmail(email);
                         if (usuario.isPresent() && usuario.get().getRol() == Rol.ADMIN) {
                             return true;
                         }
@@ -50,6 +49,6 @@ public class JwtHandshakeInterceptor implements HandshakeInterceptor {
 
     @Override
     public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response,
-                               WebSocketHandler wsHandler, Exception exception) {
+                                WebSocketHandler wsHandler, Exception exception) {
     }
 }

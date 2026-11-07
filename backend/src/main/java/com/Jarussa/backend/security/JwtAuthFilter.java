@@ -53,17 +53,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
 
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
-            if (jwtService.esTokenValido(token, email)) {
+            if (jwtService.esTokenValido(token, email) && "completa".equals(jwtService.extraerEtapa(token))) {
                 Optional<Usuario> usuarioOpt = usuarioRepository.findByEmail(email);
-
                 usuarioOpt.ifPresent(usuario -> {
                     var authority = new SimpleGrantedAuthority("ROLE_" + usuario.getRol().name());
-
                     var authToken = new UsernamePasswordAuthenticationToken(
                             usuario, null, List.of(authority)
                     );
-
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 });
             }

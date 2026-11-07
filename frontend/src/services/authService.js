@@ -8,17 +8,32 @@ export async function login(email, contrasena) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, contrasena }),
     });
-
     const data = await res.json();
-
     if (!res.ok) {
         throw new Error(data.mensaje || "No se pudo iniciar sesión");
     }
-
     return data;
+}
+
+export async function verificar2fa(tokenTemporal, codigo) {
+    const res = await fetch(`${API_URL}/2fa/verificar`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ tokenTemporal, codigo }),
+    });
+
+    const data = await res.json().catch(() => ({}));
+
+    if (!res.ok) {
+        const error = new Error(data.mensaje || "No se pudo verificar el código");
+        error.status = res.status;
+        throw error;
     }
 
-    export async function registro(nombre, email, contrasena) {
+    return data;
+}
+
+export async function registro(nombre, email, contrasena) {
     const res = await fetch(`${API_URL}/registro`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

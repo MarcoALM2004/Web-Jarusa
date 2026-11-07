@@ -27,6 +27,20 @@ public class Usuario {
     @Column(name = "fecha_creacion", updatable = false)
     private LocalDateTime fechaCreacion;
 
+    @Column(name = "totp_secreto", length = 64)
+    private String totpSecreto;
+
+    @Column(name = "dos_pasos_activo", columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private boolean dosPasosActivo = false;
+
+    @Column(name = "ultimo_paso")
+    private Long ultimoPaso; 
+    @Column(name = "intentos_2fa", columnDefinition = "INT DEFAULT 0")
+    private int intentos2fa = 0;
+
+    @Column(name = "bloqueado_hasta")
+    private Long bloqueadoHasta; 
+
     @PrePersist
     protected void onCreate() {
         this.fechaCreacion = LocalDateTime.now();
@@ -56,6 +70,21 @@ public class Usuario {
 
     public Rol getRol() { return rol; }
     public void setRol(Rol rol) { this.rol = rol; }
+
+    public String getTotpSecreto() { return totpSecreto; }
+    public void setTotpSecreto(String totpSecreto) { this.totpSecreto = totpSecreto; }
+
+    public boolean isDosPasosActivo() { return dosPasosActivo; }
+    public void setDosPasosActivo(boolean dosPasosActivo) { this.dosPasosActivo = dosPasosActivo; }
+
+    public Long getUltimoPaso() { return ultimoPaso; }
+    public void setUltimoPaso(Long ultimoPaso) { this.ultimoPaso = ultimoPaso; }
+
+    public int getIntentos2fa() { return intentos2fa; }
+    public void setIntentos2fa(int intentos2fa) { this.intentos2fa = intentos2fa; }
+
+    public Long getBloqueadoHasta() { return bloqueadoHasta; }
+    public void setBloqueadoHasta(Long bloqueadoHasta) { this.bloqueadoHasta = bloqueadoHasta; }
 
     public LocalDateTime getFechaCreacion() { return fechaCreacion; }
 }
