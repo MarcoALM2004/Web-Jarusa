@@ -1,14 +1,18 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { actualizarPerfil } from "../services/usuarioService";
+import { misPedidos } from "../services/pedidoService";
 
 import {
     CircleUserRound,
     ShoppingBag,
     ClipboardList,
     Users,
-    UserRound
+    UserRound,
+    Package,
+    CalendarDays,
+    ChevronDown,
+    ChevronUp
 } from "lucide-react";
 
 import Header from "../components/Header";
@@ -18,6 +22,37 @@ import { useAuth } from "../context/AuthContext";
 
 import "../styles/Perfil.css";
 
+const soles = (cantidad) =>
+    `S/ ${Number(cantidad || 0).toFixed(2)}`;
+
+const formatoFecha = (fecha) => {
+    if (!fecha) return "Fecha no disponible";
+
+    // Compatible con LocalDateTime serializado como arreglo
+    const fechaReal = Array.isArray(fecha)
+        ? new Date(
+            fecha[0],
+            fecha[1] - 1,
+            fecha[2],
+            fecha[3] || 0,
+            fecha[4] || 0,
+            fecha[5] || 0
+        )
+        : new Date(fecha);
+
+    if (Number.isNaN(fechaReal.getTime())) {
+        return "Fecha no disponible";
+    }
+
+    return fechaReal.toLocaleString("es-PE", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+    });
+};
+
 function Perfil() {
     const { usuario, login, logout } = useAuth();
     const navigate = useNavigate();
@@ -25,6 +60,12 @@ function Perfil() {
     const [seccion, setSeccion] = useState("datos");
     const [editando, setEditando] = useState(false);
     const [mensaje, setMensaje] = useState("");
+
+    // Estados de pedidos
+    const [pedidos, setPedidos] = useState([]);
+    const [cargandoPedidos, setCargandoPedidos] = useState(false);
+    const [errorPedidos, setErrorPedidos] = useState("");
+    const [pedidoExpandido, setPedidoExpandido] = useState(null);
 
     const [formulario, setFormulario] = useState({
         nombre: "",
@@ -34,7 +75,7 @@ function Perfil() {
         direccion: ""
     });
 
-    // Cargar información del usuario
+    // Verificar sesión y cargar información del usuario
     useEffect(() => {
         if (!usuario) {
             navigate("/login", { replace: true });
@@ -51,6 +92,42 @@ function Perfil() {
             direccion: usuario.direccion || ""
         });
     }, [usuario, navigate]);
+
+    // Obtener pedidos del cliente
+    useEffect(() => {
+        if (seccion !== "pedidos" || !usuario) return;
+
+        let activo = true;
+
+        const cargarPedidos = async () => {
+            setCargandoPedidos(true);
+            setErrorPedidos("");
+
+            try {
+                const resultado = await misPedidos();
+
+                if (activo) {
+                    setPedidos(Array.isArray(resultado) ? resultado : []);
+                }
+            } catch (error) {
+                if (activo) {
+                    setErrorPedidos(
+                        error.message || "No se pudieron cargar tus pedidos."
+                    );
+                }
+            } finally {
+                if (activo) {
+                    setCargandoPedidos(false);
+                }
+            }
+        };
+
+        cargarPedidos();
+
+        return () => {
+            activo = false;
+        };
+    }, [seccion, usuario]);
 
     if (!usuario) return null;
 
@@ -77,7 +154,6 @@ function Perfil() {
                 usuario.token
             );
 
-            // Actualizar contexto y localStorage
             login(datosActualizados);
 
             setEditando(false);
@@ -120,7 +196,7 @@ function Perfil() {
         .join("")
         .toUpperCase();
 
-    // Tarjeta de perfil del administrador
+    // Mostrar tarjeta de administrador
     if (usuario.rol === "ADMIN") {
         return (
             <AdminLayout>
@@ -146,7 +222,6 @@ function Perfil() {
         );
     }
 
-    // Perfil del cliente
     return (
         <>
             <Header />
@@ -179,9 +254,7 @@ function Perfil() {
 
                                 <button
                                     type="button"
-                                    className={
-                                        seccion === "datos" ? "activo" : ""
-                                    }
+                                    className={seccion === "datos" ? "activo" : ""}
                                     onClick={() => setSeccion("datos")}
                                 >
                                     <UserRound size={17} />
@@ -190,9 +263,7 @@ function Perfil() {
 
                                 <button
                                     type="button"
-                                    className={
-                                        seccion === "pedidos" ? "activo" : ""
-                                    }
+                                    className={seccion === "pedidos" ? "activo" : ""}
                                     onClick={() => setSeccion("pedidos")}
                                 >
                                     <ClipboardList size={17} />
@@ -208,7 +279,6 @@ function Perfil() {
                                 </button>
 
                             </nav>
-
                         </aside>
 
                         {/* PANEL DERECHO */}
@@ -216,18 +286,14 @@ function Perfil() {
 
                             {seccion === "datos" && (
                                 <>
-                                    <h2>
-                                        Información personal
-                                    </h2>
+                                    <h2>Información personal</h2>
 
                                     <form onSubmit={handleGuardar}>
 
                                         <div className="perfil-form-grid">
 
-                                            {/* Nombre */}
                                             <div className="perfil-campo">
                                                 <label>Nombre</label>
-
                                                 <input
                                                     type="text"
                                                     name="nombre"
@@ -238,10 +304,8 @@ function Perfil() {
                                                 />
                                             </div>
 
-                                            {/* Apellido */}
                                             <div className="perfil-campo">
                                                 <label>Apellido</label>
-
                                                 <input
                                                     type="text"
                                                     name="apellido"
@@ -251,10 +315,8 @@ function Perfil() {
                                                 />
                                             </div>
 
-                                            {/* Correo */}
                                             <div className="perfil-campo">
                                                 <label>Correo electrónico</label>
-
                                                 <input
                                                     type="email"
                                                     name="email"
@@ -263,10 +325,8 @@ function Perfil() {
                                                 />
                                             </div>
 
-                                            {/* Celular */}
                                             <div className="perfil-campo">
                                                 <label>Celular</label>
-
                                                 <input
                                                     type="tel"
                                                     name="celular"
@@ -277,10 +337,8 @@ function Perfil() {
                                                 />
                                             </div>
 
-                                            {/* Dirección */}
                                             <div className="perfil-campo">
                                                 <label>Dirección</label>
-
                                                 <input
                                                     type="text"
                                                     name="direccion"
@@ -293,7 +351,6 @@ function Perfil() {
 
                                         </div>
 
-                                        {/* BOTONES */}
                                         <div className="perfil-acciones">
 
                                             <button
@@ -337,32 +394,177 @@ function Perfil() {
                                 </>
                             )}
 
-                            {/* MIS PEDIDOS */}
                             {seccion === "pedidos" && (
                                 <div className="perfil-pedidos">
 
-                                    <h2>Mis pedidos</h2>
+                                    <div className="perfil-pedidos-header">
+                                        <h2>Mis pedidos</h2>
 
-                                    <div className="perfil-pedidos-vacio">
-
-                                        <ShoppingBag size={40} />
-
-                                        <p>
-                                            Aún no tienes pedidos registrados.
-                                        </p>
-
+                                        {!cargandoPedidos && (
+                                            <span className="perfil-total-pedidos">
+                                                {pedidos.length} compras
+                                            </span>
+                                        )}
                                     </div>
 
+                                    {cargandoPedidos && (
+                                        <div className="perfil-pedidos-vacio">
+                                            <ShoppingBag size={40} />
+                                            <p>Cargando tus pedidos...</p>
+                                        </div>
+                                    )}
+
+                                    {!cargandoPedidos && errorPedidos && (
+                                        <div className="perfil-pedidos-vacio">
+                                            <ShoppingBag size={40} />
+                                            <p>{errorPedidos}</p>
+
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    setSeccion("datos");
+                                                    setTimeout(() => {
+                                                        setSeccion("pedidos");
+                                                    }, 0);
+                                                }}
+                                            >
+                                                Volver a intentar
+                                            </button>
+                                        </div>
+                                    )}
+
+                                    {!cargandoPedidos &&
+                                        !errorPedidos &&
+                                        pedidos.length === 0 && (
+                                            <div className="perfil-pedidos-vacio">
+                                                <ShoppingBag size={40} />
+
+                                                <p>
+                                                    Aún no tienes pedidos registrados.
+                                                </p>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => navigate("/productos")}
+                                                >
+                                                    Explorar productos
+                                                </button>
+                                            </div>
+                                        )}
+                                    {!cargandoPedidos &&
+                                        !errorPedidos &&
+                                        pedidos.length > 0 && (
+                                            <div className="perfil-lista-pedidos">
+                                                {pedidos.map((pedido) => (
+                                                    <article
+                                                        className="perfil-pedido-card"
+                                                        key={pedido.id}
+                                                    >
+                                                        <div className="perfil-pedido-superior">
+                                                            <div className="perfil-pedido-icono">
+                                                                <Package size={23} />
+                                                            </div>
+                                                            <div className="perfil-pedido-info">
+                                                                <h3>
+                                                                    Pedido {pedido.codigo}
+                                                                </h3>
+                                                                <p>
+                                                                    <CalendarDays size={14} />
+                                                                    {formatoFecha(pedido.fecha)}
+                                                                </p>
+                                                            </div>
+                                                            <span className={`perfil-pedido-estado ${String(pedido.estado || "").toLowerCase()}`}>
+                                                                {pedido.estado}
+                                                            </span>
+                                                        </div>
+                                                        <div className="perfil-pedido-resumen">
+                                                            <div>
+                                                                <span>Productos</span>
+                                                                <strong>
+                                                                    {pedido.items?.reduce(
+                                                                        (total, item) =>
+                                                                            total + item.cantidad,
+                                                                        0
+                                                                    ) || 0} unidades
+                                                                </strong>
+                                                            </div>
+                                                            <div>
+                                                                <span>Total</span>
+                                                                <strong className="perfil-pedido-total">
+                                                                    {soles(pedido.total)}
+                                                                </strong>
+                                                            </div>
+                                                        </div>
+                                                        <button
+                                                            type="button"
+                                                            className="perfil-pedido-detalle-btn"
+                                                            onClick={() =>
+                                                                setPedidoExpandido(
+                                                                    pedidoExpandido === pedido.id
+                                                                        ? null
+                                                                        : pedido.id
+                                                                )
+                                                            }
+                                                        >
+                                                            {pedidoExpandido === pedido.id
+                                                                ? "Ocultar detalles"
+                                                                : "Ver detalles"}
+                                                            {pedidoExpandido === pedido.id
+                                                                ? <ChevronUp size={17} />
+                                                                : <ChevronDown size={17} />
+                                                            }
+                                                        </button>
+                                                        {pedidoExpandido === pedido.id && (
+                                                            <div className="perfil-pedido-detalles">
+                                                                <h4>Productos comprados</h4>
+                                                                {pedido.items?.map((item, index) => (
+                                                                    <div
+                                                                        className="perfil-pedido-producto"
+                                                                        key={index}
+                                                                    >
+                                                                        <div>
+                                                                            <strong>
+                                                                                {item.nombreProducto}
+                                                                            </strong>
+                                                                            <span>
+                                                                                Tono: {item.nombreTono}
+                                                                            </span>
+                                                                            <span>
+                                                                                Cantidad: {item.cantidad}
+                                                                            </span>
+                                                                        </div>
+                                                                        <strong>
+                                                                            {soles(
+                                                                                item.precioUnitario * item.cantidad
+                                                                            )}
+                                                                        </strong>
+                                                                    </div>
+                                                                ))}
+                                                                <div className="perfil-pedido-totales">
+                                                                    <p>
+                                                                        Subtotal
+                                                                        <strong>{soles(pedido.subtotal)}</strong>
+                                                                    </p>
+                                                                    <p>
+                                                                        Envío
+                                                                        <strong>{soles(pedido.envio)}</strong>
+                                                                    </p>
+                                                                    <p className="perfil-pedido-total-final">
+                                                                        Total
+                                                                        <strong>{soles(pedido.total)}</strong>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        )}
+                                                    </article>
+                                                ))}
+                                            </div>
+                                        )}
                                 </div>
                             )}
-
                         </section>
-
                     </div>
-
                 </div>
             </main>
-
             <Footer />
         </>
     );
