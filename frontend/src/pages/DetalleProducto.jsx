@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { Check, X, ShoppingBag } from "lucide-react";
+import { Link, useParams, useNavigate } from "react-router-dom";
+import { Check, X, ShoppingBag, ArrowLeft } from "lucide-react";
 
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -13,7 +13,9 @@ import "../styles/DetalleProducto.css";
 const soles = (n) => `S/ ${Number(n).toFixed(2)}`;
 
 function DetalleProducto() {
+
     const { id } = useParams();
+    const navigate = useNavigate();
     const { agregar } = useCart();
 
     const [producto, setProducto] = useState(null);
@@ -25,7 +27,9 @@ function DetalleProducto() {
     const [agregado, setAgregado] = useState(false);
     const [imagenActiva, setImagenActiva] = useState(0);
 
+    // CARGAR PRODUCTO
     useEffect(() => {
+
         const controller = new AbortController();
 
         setCargando(true);
@@ -34,6 +38,7 @@ function DetalleProducto() {
 
         obtenerProducto(id, controller.signal)
             .then((p) => {
+
                 setProducto(p);
 
                 setTonoId(
@@ -43,35 +48,51 @@ function DetalleProducto() {
                 setCantidad(1);
                 setImagenActiva(0);
                 setCargando(false);
+
             })
             .catch((e) => {
+
                 if (e.name === "AbortError") return;
 
                 setError(e.message);
                 setCargando(false);
+
             });
 
         return () => controller.abort();
+
     }, [id]);
 
+    // TONO SELECCIONADO
     const tono = producto?.tonos.find((t) => t.id === tonoId);
+
     const maxCantidad = tono
         ? Math.min(tono.stock, 20)
         : 0;
+
+    // GALERÍA DE IMÁGENES
     const galeria = producto
         ? [producto.imagenUrl, ...(producto.imagenes ?? [])]
         : [];
+
+    // CARACTERÍSTICAS
     const caracteristicas = (producto?.caracteristicas ?? "")
         .split("\n")
         .map((l) => l.trim())
         .filter(Boolean);
+
+    // ELEGIR TONO
     const elegirTono = (t) => {
+
         setTonoId(t.id);
         setCantidad(1);
         setAgregado(false);
+
     };
 
+    // AGREGAR AL CARRITO
     const alAgregar = () => {
+
         if (!producto || !tono || tono.stock <= 0) return;
 
         agregar(
@@ -87,16 +108,30 @@ function DetalleProducto() {
             },
             cantidad
         );
+
         setAgregado(true);
+
     };
 
+    // CERRAR MODAL
     const cerrarModal = () => {
         setAgregado(false);
     };
+
     return (
         <>
             <Header />
+
             <main className="detalle-page">
+
+                <button
+                    type="button"
+                    className="btn-volver-productos"
+                    onClick={() => navigate("/productos")}
+                >
+                    <ArrowLeft size={18} />
+                    Volver a productos
+                </button>
                 {cargando && (
                     <p className="detalle-mensaje">
                         Cargando...
@@ -112,7 +147,9 @@ function DetalleProducto() {
                 )}
                 {producto && (
                     <section className="detalle-grid">
+
                         <div className="detalle-galeria">
+
                             <div className="detalle-foto">
                                 <img
                                     src={galeria[imagenActiva] ?? producto.imagenUrl}
@@ -136,17 +173,12 @@ function DetalleProducto() {
                                             <img src={src} alt="" />
                                         </button>
                                     ))}
-
                                 </div>
                             )}
-
                         </div>
-
                         <div className="detalle-info">
-
                             <div className="detalle-titulo">
                                 <h1>{producto.nombre}</h1>
-
                                 <Link
                                     to={`/productos?categoria=${producto.categoriaId}`}
                                     className="detalle-categoria"
@@ -158,12 +190,8 @@ function DetalleProducto() {
                             <p className="detalle-precio">
                                 {soles(producto.precio)}
                             </p>
-
-                            {/* TONOS */}
                             <h2>Tonos:</h2>
-
                             <div className="detalle-tonos">
-
                                 {producto.tonos.map((t, i) => (
                                     <button
                                         key={t.id}
@@ -191,7 +219,6 @@ function DetalleProducto() {
                                 ))}
 
                             </div>
-
                             {tono && (tono.stock === 0 || tono.stock <= 5) && (
                                 <p className="detalle-stock">
                                     {tono.stock === 0
@@ -199,25 +226,21 @@ function DetalleProducto() {
                                         : `Quedan ${tono.stock}`}
                                 </p>
                             )}
-
-                            {/* CANTIDAD Y BOTÓN */}
                             <div className="detalle-acciones">
-
                                 <div className="detalle-cantidad">
-
                                     <button
                                         type="button"
                                         onClick={() =>
-                                            setCantidad((c) => Math.max(1, c - 1))
+                                            setCantidad((c) =>
+                                                Math.max(1, c - 1)
+                                            )
                                         }
                                         disabled={cantidad <= 1}
                                         aria-label="Menos"
                                     >
                                         -
                                     </button>
-
                                     <span>{cantidad}</span>
-
                                     <button
                                         type="button"
                                         onClick={() =>
@@ -230,9 +253,7 @@ function DetalleProducto() {
                                     >
                                         +
                                     </button>
-
                                 </div>
-
                                 <button
                                     type="button"
                                     className="detalle-agregar"
@@ -243,23 +264,18 @@ function DetalleProducto() {
                                 </button>
 
                             </div>
-
-                            {/* DESCRIPCIÓN */}
                             {producto.descripcion && (
                                 <>
                                     <h2>Descripción:</h2>
-
                                     <p className="detalle-texto">
                                         {producto.descripcion}
                                     </p>
                                 </>
                             )}
 
-                            {/* CARACTERÍSTICAS */}
                             {caracteristicas.length > 0 && (
                                 <>
                                     <h2>Características:</h2>
-
                                     <ul className="detalle-lista">
                                         {caracteristicas.map((c, i) => (
                                             <li key={i}>{c}</li>
@@ -267,12 +283,10 @@ function DetalleProducto() {
                                     </ul>
                                 </>
                             )}
-
                         </div>
 
                     </section>
                 )}
-
                 {/* MODAL DE CONFIRMACIÓN */}
                 {agregado && producto && tono && (
                     <div
@@ -286,8 +300,6 @@ function DetalleProducto() {
                             aria-labelledby="modal-carrito-titulo"
                             onClick={(e) => e.stopPropagation()}
                         >
-
-                            {/* BOTÓN CERRAR */}
                             <button
                                 type="button"
                                 className="modal-carrito-cerrar"
@@ -297,22 +309,17 @@ function DetalleProducto() {
                                 <X size={20} />
                             </button>
 
-                            {/* ÍCONO DE ÉXITO */}
                             <div className="modal-carrito-icono">
                                 <Check size={32} strokeWidth={3} />
                             </div>
-
                             <h2 id="modal-carrito-titulo">
                                 ¡Producto agregado!
                             </h2>
-
                             <p className="modal-carrito-sub">
                                 Tu producto ya está en tu carrito.
                             </p>
 
-                            {/* INFORMACIÓN DEL PRODUCTO */}
                             <div className="modal-carrito-producto">
-
                                 <img
                                     src={producto.imagenUrl}
                                     alt={producto.nombre}
@@ -332,6 +339,8 @@ function DetalleProducto() {
                                     </strong>
                                 </div>
                             </div>
+
+                            {/* BOTONES DEL MODAL */}
                             <div className="modal-carrito-botones">
                                 <button
                                     type="button"
@@ -352,10 +361,10 @@ function DetalleProducto() {
                     </div>
                 )}
             </main>
-
             <Footer />
         </>
     );
+
 }
 
 export default DetalleProducto;

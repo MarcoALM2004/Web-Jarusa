@@ -242,6 +242,115 @@
     font-size: 13px;
 }
 
+.perfil-card {
+    width: 100%;
+    max-width: 430px;
+    margin: 35px auto;
+    padding: 40px 35px;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    background: #ffffff;
+    border: 1px solid #f7d6e5;
+    border-radius: 22px;
+    box-shadow: 0 8px 25px rgba(195, 103, 145, 0.10);
+}
+
+.perfil-icono {
+    width: 105px;
+    height: 105px;
+    margin-bottom: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: linear-gradient(145deg, #ffe7f1, #ffd7e9);
+    color: #f7479b;
+    border-radius: 50%;
+}
+
+.perfil-card h1 {
+    margin: 0 0 12px;
+    color: #39313a;
+    font-family: "Montserrat Alternates", sans-serif;
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.perfil-email {
+    margin: 0 0 18px;
+    color: #a18c98;
+    font-size: 14px;
+    overflow-wrap: anywhere;
+}
+
+.perfil-rol {
+    padding: 7px 20px;
+    margin-bottom: 25px;
+
+    background: #ffe4ef;
+    color: #f7479b;
+    border-radius: 20px;
+
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.perfil-logout {
+    min-width: 170px;
+    padding: 12px 25px;
+
+    border: none;
+    border-radius: 25px;
+
+    background: #ff82b9;
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.perfil-logout:hover {
+    background: #f7479b;
+    box-shadow: 0 4px 12px rgba(247, 71, 155, 0.20);
+    transform: translateY(-2px);
+}
+
+.perfil-page:has(.perfil-card) {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+.perfil-card {
+    margin: 0;
+}
+
+@media (max-width: 500px) {
+    .perfil-card {
+        max-width: 100%;
+        padding: 30px 20px;
+        margin: 20px auto;
+    }
+
+    .perfil-card h1 {
+        font-size: 21px;
+    }
+}
+
 /* ===== RESPONSIVE ===== */
 
 @media (max-width: 750px) {

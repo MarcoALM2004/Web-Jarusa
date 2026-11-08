@@ -68,7 +68,15 @@ public class DosPasosService {
         usuarioRepository.save(usuario);
 
         String token = jwtService.generarToken(usuario.getEmail(), usuario.getRol().name());
-        return new AuthResponse(token, usuario.getNombre(), usuario.getEmail(), usuario.getRol().name());
+        return new AuthResponse(
+                token,
+                usuario.getNombre(),
+                usuario.getApellido(),
+                usuario.getEmail(),
+                usuario.getCelular(),
+                usuario.getDireccion(),
+                usuario.getRol().name()
+        );
     }
 
     private String emailDelPase(String tokenTemporal) {
