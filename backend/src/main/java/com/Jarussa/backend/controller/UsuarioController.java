@@ -2,7 +2,7 @@
 package com.Jarussa.backend.controller;
 
 import com.Jarussa.backend.dto.ActualizarPerfilRequest;
-import com.Jarussa.backend.dto.AuthResponse;
+import com.Jarussa.backend.dto.Response.AuthResponse;
 import com.Jarussa.backend.model.Usuario;
 import com.Jarussa.backend.repository.UsuarioRepository;
 import com.Jarussa.backend.security.JwtService;

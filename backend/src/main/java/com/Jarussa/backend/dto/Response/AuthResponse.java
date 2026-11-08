@@ -1,4 +1,3 @@
-
 package com.Jarussa.backend.dto.Response;
 
 public class AuthResponse {
