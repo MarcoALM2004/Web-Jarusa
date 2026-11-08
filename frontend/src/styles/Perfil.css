@@ -1,71 +1,279 @@
+
+/* ===== PERFIL JARUSA ===== */
+
 .perfil-page {
-  flex: 1 1 0%; /* cuando esta dentro de .admin-layout, ocupa el espacio junto al sidebar */
-  width: 100%;
-  min-width: 0; /* evita que el contenido interno le impida encogerse/crecer bien */
-
-  min-height: 70vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 20px;
-  box-sizing: border-box;
+    width: 100%;
+    min-height: 65vh;
+    padding: 30px 5% 45px;
+    box-sizing: border-box;
 }
 
-.perfil-card {
-  background-color: white;
-  border-radius: 20px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-
-  padding: 40px 32px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  max-width: 340px;
-  width: 100%;
-  text-align: center;
+.perfil-container {
+    max-width: 1050px;
+    margin: 0 auto;
 }
 
-.perfil-icono {
-  color: #ff4fa0;
-  margin-bottom: 12px;
+.perfil-titulo {
+    color: #f7479b;
+    font-family: "Montserrat Alternates", sans-serif;
+    font-size: 23px;
+    font-weight: 700;
+    margin: 0 0 20px 5px;
 }
 
-.perfil-card h1 {
-  font-size: 22px;
-  color: #333;
-  margin: 0 0 4px;
+/* DISTRIBUCIÓN */
+
+.perfil-contenido {
+    display: grid;
+    grid-template-columns: 245px minmax(0, 1fr);
+    gap: 22px;
+    align-items: start;
 }
 
-.perfil-email {
-  color: #888;
-  font-size: 14px;
-  margin: 0 0 12px;
+/* TARJETAS */
+
+.perfil-sidebar,
+.perfil-panel {
+    background: #ffffff;
+    border: 1px solid #f7d6e5;
+    border-radius: 17px;
+    box-shadow: 0 5px 20px rgba(195, 103, 145, 0.045);
 }
 
-.perfil-rol {
-  display: inline-block;
-  background-color: #ffe1f0;
-  color: #ff4fa0;
-  font-size: 12px;
-  font-weight: bold;
-  padding: 4px 14px;
-  border-radius: 20px;
-  margin-bottom: 24px;
+/* ===== PANEL IZQUIERDO ===== */
+
+.perfil-sidebar {
+    align-self: start;
+    height: fit-content;
+    padding: 27px 22px;
+    box-sizing: border-box;
+    text-align: center;
+}
+.perfil-avatar {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #ffe7f1, #ffd7e9);
+    color: #f7479b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 17px;
+    font-size: 25px;
+    font-weight: 700;
 }
 
-.perfil-logout {
-  width: 100%;
-  padding: 12px;
-  background-color: #ff4fa0;
-  color: white;
-  border: none;
-  border-radius: 30px;
-  font-size: 15px;
-  cursor: pointer;
+.perfil-sidebar h2 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #39313a;
+    margin: 0 0 6px;
 }
 
-.perfil-logout:hover {
-  background-color: #e6398c;
+.perfil-sidebar-email {
+    font-size: 12px;
+    color: #a18c98;
+    margin: 0 0 25px;
+    overflow-wrap: anywhere;
+}
+
+/* MENÚ */
+
+.perfil-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: left;
+}
+
+.perfil-menu button {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 11px;
+    width: 100%;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: #766873;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.perfil-menu button:hover,
+.perfil-menu button.activo {
+    background: #ffe4ef;
+    color: #f7479b;
+}
+
+.perfil-menu button:hover {
+    transform: translateX(2px);
+}
+
+/* ===== PANEL DERECHO ===== */
+
+.perfil-panel {
+    padding: 30px 32px;
+}
+
+.perfil-panel h2 {
+    color: #f7479b;
+    font-family: "Montserrat Alternates", sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0 27px;
+}
+
+/* FORMULARIO */
+
+.perfil-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 35px;
+    row-gap: 21px;
+    padding: 0 10px;
+}
+
+.perfil-campo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.perfil-campo label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #887783;
+}
+
+.perfil-campo input {
+    width: 100%;
+    height: 40px;
+    padding: 0 13px;
+    box-sizing: border-box;
+    border: 1px solid #f5a1c5;
+    border-radius: 9px;
+    background: #fffdfd;
+    color: #453943;
+    font-family: inherit;
+    font-size: 12px;
+    outline: none;
+    transition: 0.2s ease;
+}
+
+.perfil-campo input:focus {
+    border-color: #f7479b;
+    box-shadow: 0 0 0 3px rgba(247, 71, 155, 0.09);
+    background: #ffffff;
+}
+
+.perfil-campo input:disabled {
+    background: #f8f5f6;
+    color: #887783;
+    border: 1px solid #eadde3;
+    opacity: 1;
+    cursor: not-allowed;
+}
+
+/* BOTONES */
+
+.perfil-acciones {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 10px;
+    margin-top: 27px;
+}
+
+.perfil-guardar,
+.perfil-editar,
+.perfil-cancelar {
+    min-width: 145px;
+    padding: 11px 20px;
+    border: none;
+    border-radius: 25px;
+    background: #ff82b9;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.perfil-guardar:hover,
+.perfil-editar:hover,
+.perfil-cancelar:hover {
+    background: #f7479b;
+    box-shadow: 0 4px 12px rgba(247, 71, 155, 0.18);
+    transform: translateY(-1px);
+}
+
+.perfil-guardar:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.perfil-mensaje {
+    padding: 0 10px;
+    margin-top: 15px;
+    color: #279b68;
+    font-size: 12px;
+}
+
+/* ===== PEDIDOS ===== */
+
+.perfil-pedidos-vacio {
+    min-height: 190px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: #fff8fb;
+    border: 1px dashed #f5c5db;
+    border-radius: 13px;
+    color: #c18ca7;
+    font-size: 13px;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 750px) {
+    .perfil-page {
+        padding: 25px 16px 35px;
+    }
+
+    .perfil-contenido {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .perfil-sidebar {
+        width: 100%;
+        height: fit-content;
+    }
+
+    .perfil-form-grid {
+        grid-template-columns: 1fr;
+        padding: 0;
+    }
+
+    .perfil-panel {
+        padding: 25px 20px;
+    }
+
+    .perfil-acciones {
+        padding: 0;
+        flex-wrap: wrap;
+    }
+
+    .perfil-titulo {
+        margin-left: 0;
+    }
 }

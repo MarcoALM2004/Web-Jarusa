@@ -1,3 +1,4 @@
+
 package com.Jarussa.backend.model;
 
 import jakarta.persistence.*;
@@ -14,8 +15,17 @@ public class Usuario {
     @Column(nullable = false, length = 100)
     private String nombre;
 
+    @Column(length = 100)
+    private String apellido;
+
     @Column(nullable = false, unique = true, length = 150)
     private String email;
+
+    @Column(length = 20)
+    private String celular;
+
+    @Column(length = 255)
+    private String direccion;
 
     @Column(name = "contrasena", nullable = false)
     private String contrasena;
@@ -27,6 +37,7 @@ public class Usuario {
     @Column(name = "fecha_creacion", updatable = false)
     private LocalDateTime fechaCreacion;
 
+    // Autenticación en dos pasos
     @Column(name = "totp_secreto", length = 64)
     private String totpSecreto;
 
@@ -34,12 +45,13 @@ public class Usuario {
     private boolean dosPasosActivo = false;
 
     @Column(name = "ultimo_paso")
-    private Long ultimoPaso; 
+    private Long ultimoPaso;
+
     @Column(name = "intentos_2fa", columnDefinition = "INT DEFAULT 0")
     private int intentos2fa = 0;
 
     @Column(name = "bloqueado_hasta")
-    private Long bloqueadoHasta; 
+    private Long bloqueadoHasta;
 
     @PrePersist
     protected void onCreate() {
@@ -56,35 +68,111 @@ public class Usuario {
         this.rol = rol;
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
 
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public String getNombre() {
+        return nombre;
+    }
 
-    public String getContrasena() { return contrasena; }
-    public void setContrasena(String contrasena) { this.contrasena = contrasena; }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-    public Rol getRol() { return rol; }
-    public void setRol(Rol rol) { this.rol = rol; }
+    public String getApellido() {
+        return apellido;
+    }
 
-    public String getTotpSecreto() { return totpSecreto; }
-    public void setTotpSecreto(String totpSecreto) { this.totpSecreto = totpSecreto; }
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
 
-    public boolean isDosPasosActivo() { return dosPasosActivo; }
-    public void setDosPasosActivo(boolean dosPasosActivo) { this.dosPasosActivo = dosPasosActivo; }
+    public String getEmail() {
+        return email;
+    }
 
-    public Long getUltimoPaso() { return ultimoPaso; }
-    public void setUltimoPaso(Long ultimoPaso) { this.ultimoPaso = ultimoPaso; }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-    public int getIntentos2fa() { return intentos2fa; }
-    public void setIntentos2fa(int intentos2fa) { this.intentos2fa = intentos2fa; }
+    public String getCelular() {
+        return celular;
+    }
 
-    public Long getBloqueadoHasta() { return bloqueadoHasta; }
-    public void setBloqueadoHasta(Long bloqueadoHasta) { this.bloqueadoHasta = bloqueadoHasta; }
+    public void setCelular(String celular) {
+        this.celular = celular;
+    }
 
-    public LocalDateTime getFechaCreacion() { return fechaCreacion; }
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public String getContrasena() {
+        return contrasena;
+    }
+
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
+
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
+    }
+
+    public LocalDateTime getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public String getTotpSecreto() {
+        return totpSecreto;
+    }
+
+    public void setTotpSecreto(String totpSecreto) {
+        this.totpSecreto = totpSecreto;
+    }
+
+    public boolean isDosPasosActivo() {
+        return dosPasosActivo;
+    }
+
+    public void setDosPasosActivo(boolean dosPasosActivo) {
+        this.dosPasosActivo = dosPasosActivo;
+    }
+
+    public Long getUltimoPaso() {
+        return ultimoPaso;
+    }
+
+    public void setUltimoPaso(Long ultimoPaso) {
+        this.ultimoPaso = ultimoPaso;
+    }
+
+    public int getIntentos2fa() {
+        return intentos2fa;
+    }
+
+    public void setIntentos2fa(int intentos2fa) {
+        this.intentos2fa = intentos2fa;
+    }
+
+    public Long getBloqueadoHasta() {
+        return bloqueadoHasta;
+    }
+
+    public void setBloqueadoHasta(Long bloqueadoHasta) {
+        this.bloqueadoHasta = bloqueadoHasta;
+    }
 }

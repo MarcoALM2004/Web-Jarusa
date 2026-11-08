@@ -9,7 +9,9 @@ import com.Jarussa.backend.model.Usuario;
 import com.Jarussa.backend.repository.UsuarioRepository;
 import com.Jarussa.backend.security.JwtService;
 import com.Jarussa.backend.service.DosPasosService;
+
 import jakarta.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,10 +29,12 @@ public class AuthController {
     private final JwtService jwtService;
     private final DosPasosService dosPasosService;
 
-    public AuthController(UsuarioRepository usuarioRepository,
-                            PasswordEncoder passwordEncoder,
-                            JwtService jwtService,
-                            DosPasosService dosPasosService) {
+    public AuthController(
+            UsuarioRepository usuarioRepository,
+            PasswordEncoder passwordEncoder,
+            JwtService jwtService,
+            DosPasosService dosPasosService
+    ) {
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
@@ -38,57 +42,115 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request) {
+    public ResponseEntity<?> login(
+            @Valid @RequestBody LoginRequest request
+    ) {
+        Optional<Usuario> usuarioOpt =
+                usuarioRepository.findByEmail(request.getEmail());
 
-        Optional<Usuario> usuarioOpt = usuarioRepository.findByEmail(request.getEmail());
         if (usuarioOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("mensaje", "Correo o contraseña incorrectos"));
-        }
-        Usuario usuario = usuarioOpt.get();
-        boolean coincide = passwordEncoder.matches(request.getContrasena(), usuario.getContrasena());
-        if (!coincide) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("mensaje", "Correo o contraseña incorrectos"));
+                    .body(Map.of(
+                            "mensaje",
+                            "Correo o contraseña incorrectos"
+                    ));
         }
 
-        if (usuario.isDosPasosActivo()) {
-            return ResponseEntity.ok(AuthResponse.pendiente(jwtService.generarTokenTemporal(usuario.getEmail())));
-        }
-        String token = jwtService.generarToken(usuario.getEmail(), usuario.getRol().name());
-        AuthResponse response = new AuthResponse(
-                token, usuario.getNombre(), usuario.getEmail(), usuario.getRol().name()
+        Usuario usuario = usuarioOpt.get();
+
+        boolean coincide = passwordEncoder.matches(
+                request.getContrasena(),
+                usuario.getContrasena()
         );
+
+        if (!coincide) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of(
+                            "mensaje",
+                            "Correo o contraseña incorrectos"
+                    ));
+        }
+
+        // Verificación de autenticación en dos pasos
+        if (usuario.isDosPasosActivo()) {
+            return ResponseEntity.ok(
+                    AuthResponse.pendiente(
+                            jwtService.generarTokenTemporal(usuario.getEmail())
+                    )
+            );
+        }
+
+        String token = jwtService.generarToken(
+                usuario.getEmail(),
+                usuario.getRol().name()
+        );
+
+        AuthResponse response = crearRespuesta(usuario, token);
+
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/2fa/verificar")
-    public AuthResponse verificarDosPasos(@Valid @RequestBody Verificar2faRequest request) {
-        return dosPasosService.verificar(request.tokenTemporal(), request.codigo());
+    public AuthResponse verificarDosPasos(
+            @Valid @RequestBody Verificar2faRequest request
+    ) {
+        return dosPasosService.verificar(
+                request.tokenTemporal(),
+                request.codigo()
+        );
     }
 
     @PostMapping("/registro")
-    public ResponseEntity<?> registro(@Valid @RequestBody RegistroRequest request) {
-
+    public ResponseEntity<?> registro(
+            @Valid @RequestBody RegistroRequest request
+    ) {
         if (usuarioRepository.existsByEmail(request.getEmail())) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(Map.of("mensaje", "Ese correo ya esta registrado"));
+                    .body(Map.of(
+                            "mensaje",
+                            "Ese correo ya está registrado"
+                    ));
         }
 
-        String hash = passwordEncoder.encode(request.getContrasena());
+        String hash = passwordEncoder.encode(
+                request.getContrasena()
+        );
 
         Usuario nuevoUsuario = new Usuario(
-                request.getNombre(), request.getEmail(), hash, Rol.CLIENTE
+                request.getNombre(),
+                request.getEmail(),
+                hash,
+                Rol.CLIENTE
         );
 
         usuarioRepository.save(nuevoUsuario);
 
-        String token = jwtService.generarToken(nuevoUsuario.getEmail(), nuevoUsuario.getRol().name());
-
-        AuthResponse response = new AuthResponse(
-                token, nuevoUsuario.getNombre(), nuevoUsuario.getEmail(), nuevoUsuario.getRol().name()
+        String token = jwtService.generarToken(
+                nuevoUsuario.getEmail(),
+                nuevoUsuario.getRol().name()
         );
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        AuthResponse response = crearRespuesta(
+                nuevoUsuario,
+                token
+        );
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(response);
+    }
+
+    private AuthResponse crearRespuesta(
+            Usuario usuario,
+            String token
+    ) {
+        return new AuthResponse(
+                token,
+                usuario.getNombre(),
+                usuario.getApellido(),
+                usuario.getEmail(),
+                usuario.getCelular(),
+                usuario.getDireccion(),
+                usuario.getRol().name()
+        );
     }
 }
